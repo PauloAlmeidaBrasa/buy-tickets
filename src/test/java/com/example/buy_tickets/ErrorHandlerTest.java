@@ -35,6 +35,6 @@ class ErrorHandlerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.error").value("Bad Request"))
-                .andExpect(jsonPath("$.errors[0].field").value("ticketId"));
+                .andExpect(jsonPath("$.errors[*].field", org.hamcrest.Matchers.hasItems("ticketId", "userId")));
     }
 }
