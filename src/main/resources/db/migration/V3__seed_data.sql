@@ -11,11 +11,11 @@ ON DUPLICATE KEY UPDATE
 
 INSERT INTO tickets (id, event_id, status)
 VALUES
-    (1, 1, 'available'),
-    (2, 1, 'sold'),
-    (3, 2, 'available'),
-    (4, 2, 'available'),
-    (5, 3, 'available')
+    (1, 1, 'AVAILABLE'),
+    (2, 1, 'AVAILABLE'),
+    (3, 2, 'AVAILABLE'),
+    (4, 2, 'AVAILABLE'),
+    (5, 3, 'AVAILABLE')
 ON DUPLICATE KEY UPDATE
     event_id = VALUES(event_id),
     status = VALUES(status);

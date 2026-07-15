@@ -6,6 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tickets")
@@ -18,8 +21,13 @@ public class TicketEntity {
     @JoinColumn(name = "event_id", nullable = false)
     private EventEntity event;
 
-    @Column(nullable = false)
-    private String status;
+    // @Column(nullable = false)
+    // private String status;
+    @Enumerated(EnumType.STRING)
+    private TicketStatus status;
+
+    @Column(name = "reserved_until")
+    private LocalDateTime reservedUntil;
 
     public TicketEntity() {
     }
@@ -40,11 +48,22 @@ public class TicketEntity {
         this.event = event;
     }
 
-    public String getStatus() {
+    public TicketStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TicketStatus status) {
         this.status = status;
     }
+    public enum TicketStatus {
+        AVAILABLE,
+        RESERVED,
+        SOLD
+    }
+    public LocalDateTime getReservedUntil() {
+        return reservedUntil;
+    }
+    public void setReservedUntil(LocalDateTime reservedUntil) {
+        this.reservedUntil = reservedUntil;
+    }  
 }
