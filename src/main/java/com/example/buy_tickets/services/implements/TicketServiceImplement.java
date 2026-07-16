@@ -3,6 +3,7 @@ package com.example.buy_tickets.services.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.buy_tickets.config.AwsSqsHelper;
 import com.example.buy_tickets.models.TicketEntity;
 import com.example.buy_tickets.repositories.TicketRepository;
 import com.example.buy_tickets.services.TicketService;
@@ -11,9 +12,11 @@ import com.example.buy_tickets.services.TicketService;
 public class TicketServiceImplement implements TicketService {
 
     private final TicketRepository ticketRepository;
+    private final AwsSqsHelper awsSqsHelper;
 
-    public TicketServiceImplement(TicketRepository ticketRepository) {
+    public TicketServiceImplement(TicketRepository ticketRepository, AwsSqsHelper awsSqsHelper) {
         this.ticketRepository = ticketRepository;
+        this.awsSqsHelper = awsSqsHelper;
     }
 
     @Override
@@ -25,7 +28,10 @@ public class TicketServiceImplement implements TicketService {
             reservedTicket.setStatus(TicketEntity.TicketStatus.RESERVED);
             reservedTicket.setReservedUntil(java.time.LocalDateTime.now().plusMinutes(10));
             ticketRepository.save(reservedTicket);
-            return "CALL the SQS";
+
+            String messageBody = String.format("ticketId=%s,userId=%s", ticketId, userId);
+            awsSqsHelper.sendReservationMessage(messageBody);
+            return "Ticket reserved successfully";
         }
 
         return "Ticket not available";
