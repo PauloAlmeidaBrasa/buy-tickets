@@ -22,6 +22,9 @@ public class TicketServiceImplement implements TicketService {
         TicketEntity reservedTicket = isTicketAvailable(ticketId);
 
         if (reservedTicket != null) {
+            reservedTicket.setStatus(TicketEntity.TicketStatus.RESERVED);
+            reservedTicket.setReservedUntil(java.time.LocalDateTime.now().plusMinutes(10));
+            ticketRepository.save(reservedTicket);
             return "CALL the SQS";
         }
 
@@ -29,7 +32,6 @@ public class TicketServiceImplement implements TicketService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public TicketEntity isTicketAvailable(Long ticketId) {
         return ticketRepository.findByIdToReserve(ticketId).orElse(null);
     }
