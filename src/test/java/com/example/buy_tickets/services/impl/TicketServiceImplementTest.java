@@ -14,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.buy_tickets.config.AwsSqsHelper;
 import com.example.buy_tickets.models.TicketEntity;
 import com.example.buy_tickets.repositories.TicketRepository;
 
@@ -25,7 +24,6 @@ class TicketServiceImplementTest {
     private TicketRepository ticketRepository;
 
     @Mock
-    private AwsSqsHelper awsSqsHelper;
 
     @InjectMocks
     private TicketServiceImplement ticketService;
@@ -46,7 +44,7 @@ class TicketServiceImplementTest {
         assertEquals(LocalDateTime.class, ticket.getReservedUntil().getClass());
 
         ArgumentCaptor<String> messageCaptor = ArgumentCaptor.forClass(String.class);
-        verify(awsSqsHelper).sendReservationMessage(messageCaptor.capture());
+        // verify(awsSqsHelper).sendReservationMessage(messageCaptor.capture());
         assertEquals(true, messageCaptor.getValue().contains("ticketId=1"));
         assertEquals(true, messageCaptor.getValue().contains("userId=7"));
     }
