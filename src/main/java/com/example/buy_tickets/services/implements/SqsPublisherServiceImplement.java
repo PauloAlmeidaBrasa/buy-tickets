@@ -1,32 +1,36 @@
-package com.example.buy_tickets.services;
+package com.example.buy_tickets.services.impl;
+import com.example.buy_tickets.services.SqsPublisherService;
 
 import com.example.buy_tickets.dto.TicketPurchaseMessage;
-import tools.jackson.databind.json.JsonMapper;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.SendMessageRequest;
 import software.amazon.awssdk.services.sqs.model.SendMessageResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class SqsPublisher {
+public class SqsPublisherServiceImplement implements SqsPublisherService {
+
+
 
     private final SqsClient sqsClient;
-    private final JsonMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Value("${AWS_SQS_QUEUE_URL:}")
     private String queueUrl;
 
-    public SqsPublisher(
+    public SqsPublisherServiceImplement(
             SqsClient sqsClient,
-            JsonMapper objectMapper) {
+            ObjectMapper objectMapper) {
 
         this.sqsClient = sqsClient;
         this.objectMapper = objectMapper;
     }
 
+
+    @Override
     public void publish(
             Long ticketId,
             Long userId) {

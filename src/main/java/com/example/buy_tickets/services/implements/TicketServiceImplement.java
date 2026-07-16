@@ -3,7 +3,7 @@ package com.example.buy_tickets.services.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.buy_tickets.services.SqsPublisher;
+import com.example.buy_tickets.services.impl.SqsPublisherServiceImplement;
 import com.example.buy_tickets.models.TicketEntity;
 import com.example.buy_tickets.repositories.TicketRepository;
 import com.example.buy_tickets.services.TicketService;
@@ -12,9 +12,9 @@ import com.example.buy_tickets.services.TicketService;
 public class TicketServiceImplement implements TicketService {
 
     private final TicketRepository ticketRepository;
-    private final SqsPublisher sqsPublisher;
+    private final SqsPublisherServiceImplement sqsPublisher;
 
-    public TicketServiceImplement(TicketRepository ticketRepository, SqsPublisher sqsPublisher) {
+    public TicketServiceImplement(TicketRepository ticketRepository, SqsPublisherServiceImplement sqsPublisher) {
         this.ticketRepository = ticketRepository;
         this.sqsPublisher = sqsPublisher;
     }

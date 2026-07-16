@@ -9,7 +9,8 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.SqsClientBuilder;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import org.springframework.util.StringUtils;   
+import org.springframework.util.StringUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;   
 
 
 
@@ -39,4 +40,11 @@ public class AwsConfig {
 
         return builder.build();
     }
+    public class JacksonConfig {
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
+}
 }
