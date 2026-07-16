@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.buy_tickets.services.TicketService;
 import com.example.buy_tickets.dto.request.BuyTicketRequest;
+import com.example.buy_tickets.services.TicketService;
 import jakarta.validation.Valid;
 
 @RestController
