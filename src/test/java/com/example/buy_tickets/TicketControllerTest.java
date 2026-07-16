@@ -6,13 +6,14 @@ import org.junit.jupiter.api.Test;
 
 import com.example.buy_tickets.controllers.ticket.TicketController;
 import com.example.buy_tickets.dto.request.BuyTicketRequest;
+import com.example.buy_tickets.models.TicketEntity;
 import com.example.buy_tickets.services.TicketService;
 
 class TicketControllerTest {
 
     @Test
     void shouldBuyTicketAndReturnHelloWorld() {
-        TicketController controller = new TicketController(new TicketService());
+        TicketController controller = new TicketController(new StubTicketService());
 
         String response = controller.buyTicket(buildRequest(1L, 7L));
 
@@ -38,9 +39,26 @@ class TicketControllerTest {
         return request;
     }
 
-    private static class RecordingTicketService extends TicketService {
+    private static class StubTicketService implements TicketService {
+        @Override
+        public TicketEntity isTicketAvailable(Long ticketId) {
+            return null;
+        }
+
+        @Override
+        public String buy(Long ticketId, Long userId) {
+            return "hello world";
+        }
+    }
+
+    private static class RecordingTicketService implements TicketService {
         private Long ticketId;
         private Long userId;
+
+        @Override
+        public TicketEntity isTicketAvailable(Long ticketId) {
+            return null;
+        }
 
         @Override
         public String buy(Long ticketId, Long userId) {
