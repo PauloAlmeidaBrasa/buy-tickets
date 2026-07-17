@@ -51,7 +51,10 @@ public class TicketServiceImplement implements TicketService {
                 ticket.getId(),
                 ticket.getEvent().getId(),
                 ticket.getStatus().name(),
-                ticket.getReservedUntil() != null ? ticket.getReservedUntil().toString() : null
+                ticket.getReservedUntil() != null ? ticket.getReservedUntil().toString() : null,
+                ticket.getEvent().getName(),
+                ticket.getEvent().getEventAddress(),
+                ticket.getEvent().getEventDate().toString()
         ))
         .collect(java.util.stream.Collectors.toList());
     }
