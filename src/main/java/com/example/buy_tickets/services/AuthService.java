@@ -19,15 +19,15 @@ public class AuthService {
     private final JwtHelper jwtHelper;
 
     public AuthResponse login(LoginRequest request) {
-        UserEntity user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
+        UserEntity user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("user not found"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid username or password");
         }
 
         String token = jwtHelper.createToken(user.getUsername());
-        return new AuthResponse(token, "13123132");
+        return new AuthResponse(token);
     }
 
     public AuthResponse register(RegisterRequest request) {
@@ -43,6 +43,6 @@ public class AuthService {
         userRepository.save(user);
 
         String token = jwtHelper.createToken(user.getUsername());
-        return new AuthResponse(token, "13123132");
+        return new AuthResponse(token);
     }
 }
