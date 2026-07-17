@@ -13,6 +13,8 @@ import com.example.buy_tickets.controllers.ticket.TicketController;
 import com.example.buy_tickets.error.ErrorHandler;
 import com.example.buy_tickets.models.TicketEntity;
 import com.example.buy_tickets.services.TicketService;
+import java.util.List;
+import com.example.buy_tickets.dto.response.TicketListResponse;
 
 class ErrorHandlerTest {
 
@@ -48,6 +50,10 @@ class ErrorHandlerTest {
         @Override
         public String buy(Long ticketId, Long userId) {
             return "hello world";
+        }
+        @Override
+        public List<TicketListResponse> listTickets() {
+            return List.of();
         }
     }
 }

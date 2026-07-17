@@ -8,6 +8,8 @@ import com.example.buy_tickets.controllers.ticket.TicketController;
 import com.example.buy_tickets.dto.request.BuyTicketRequest;
 import com.example.buy_tickets.models.TicketEntity;
 import com.example.buy_tickets.services.TicketService;
+import java.util.List;
+import com.example.buy_tickets.dto.response.TicketListResponse;
 
 class TicketControllerTest {
 
@@ -49,6 +51,10 @@ class TicketControllerTest {
         public String buy(Long ticketId, Long userId) {
             return "hello world";
         }
+        @Override
+        public List<TicketListResponse> listTickets() {
+            return List.of();
+        }
     }
 
     private static class RecordingTicketService implements TicketService {
@@ -65,6 +71,10 @@ class TicketControllerTest {
             this.ticketId = ticketId;
             this.userId = userId;
             return "hello world";
+        }
+        @Override
+        public List<TicketListResponse> listTickets() {
+            return List.of();
         }
     }
 }
