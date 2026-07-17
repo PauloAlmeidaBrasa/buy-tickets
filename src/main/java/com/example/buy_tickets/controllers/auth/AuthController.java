@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.buy_tickets.dto.request.LoginRequest;
 import com.example.buy_tickets.services.AuthService;
 import jakarta.validation.Valid;
+import com.example.buy_tickets.dto.response.AuthResponse;
+
 
 
 @RestController
@@ -23,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid @RequestBody LoginRequest request) {
-        return "13";
+    public AuthResponse login(@Valid @RequestBody LoginRequest request) {
+        return authService.login(request);
     }
 }

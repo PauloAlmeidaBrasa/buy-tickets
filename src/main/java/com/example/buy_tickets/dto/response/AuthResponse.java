@@ -1,11 +1,9 @@
 package com.example.buy_tickets.dto.response;
 
-public record AuthResponse(
-        String accessToken,
-        String refreshToken,
-        String tokenType
-) {
-    public AuthResponse(String accessToken, String refreshToken) {
-        this(accessToken, refreshToken, "Bearer");
+public record AuthResponse(String accessToken) {
+    public AuthResponse {
+        if (accessToken == null || accessToken.isBlank()) {
+            throw new IllegalArgumentException("accessToken must not be blank");
+        }
     }
 }
