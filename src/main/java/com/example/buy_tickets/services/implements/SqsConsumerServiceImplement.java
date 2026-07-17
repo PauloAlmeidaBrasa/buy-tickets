@@ -27,7 +27,7 @@ public class SqsConsumerServiceImplement implements SqsConsumerService {
     }
 
     @Override
-    @Scheduled(fixedDelay = 5000)
+//     @Scheduled(fixedDelay = 5000)
     public String consumeTicketQueue() {
 
         ReceiveMessageRequest request =
