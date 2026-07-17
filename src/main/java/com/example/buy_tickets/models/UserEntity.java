@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class UserEntity {
 
     @Id
@@ -43,7 +43,7 @@ public class UserEntity {
             
     }
     public String getPassword() {
-        return email;
+        return password;
     }
     public void setPassword(String pass) {
         this.password = pass;
