@@ -1,91 +1,63 @@
 package com.example.buy_tickets.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import com.example.buy_tickets.models.UserEntity;
+import jakarta.annotation.PostConstruct;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 
 @Component
 public class JwtHelper {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private final String secret;
+    private final long expirationMs;
+    private SecretKey signingKey;
 
-    @Value("${jwt.expiration}")
-    private long expiration;
-
-    @Value("${jwt.refresh-expiration}")
-    private long refreshExpiration;
-
-    private SecretKey getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        return Keys.hmacShaKeyFor(keyBytes);
+    public JwtHelper(@Value("${JWT_SECRET}") String secret,
+                      @Value("${JWT_EXPIRATION_MS}") long expirationMs) {
+        this.secret = secret;
+        this.expirationMs = expirationMs;
     }
 
-    public String generateToken(UserEntity userDetails) {
-        return generateToken(new HashMap<>(), userDetails, expiration);
+    @PostConstruct
+    public void init() {
+        signingKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateRefreshToken(UserEntity userDetails) {
-        return generateToken(new HashMap<>(), userDetails, refreshExpiration);
-    }
-
-    public String generateToken(Map<String, Object> extraClaims, UserEntity userDetails, long expirationMs) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + expirationMs);
-
+    public String createToken(String subject) {
+        Instant now = Instant.now();
         return Jwts.builder()
-                .claims(extraClaims)
-                .subject(userDetails.getUsername())
-                .issuedAt(now)
-                .expiration(expiryDate)
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .subject(subject)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plusMillis(expirationMs)))
+                .signWith(signingKey)
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    public String getSubject(String token) {
+        return parseClaims(token).getSubject();
     }
 
-    public Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+    public boolean validateToken(String token) {
+        try {
+            parseClaims(token);
+            return true;
+        } catch (RuntimeException ex) {
+            return false;
+        }
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private Claims extractAllClaims(String token) {
+    private Claims parseClaims(String token) {
         return Jwts.parser()
-                .verifyWith(getSigningKey())
+                .verifyWith(signingKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-    }
-
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
-    }
-
-    public boolean isTokenExpired(String token) {
-        try {
-            return extractExpiration(token).before(new Date());
-        } catch (ExpiredJwtException e) {
-            return true;
-        }
     }
 }

@@ -43,6 +43,9 @@ public class ErrorHandler {
         private final List<FieldErrorResponse> errors;
 
         public ValidationErrorResponse(String timestamp, int status, String error, List<FieldErrorResponse> errors) {
+             System.out.println(
+                    "Message received: "
+                            + error);
             this.timestamp = timestamp;
             this.status = status;
             this.error = error;

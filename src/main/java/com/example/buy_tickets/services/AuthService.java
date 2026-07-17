@@ -7,9 +7,6 @@ import com.example.buy_tickets.models.UserEntity;
 import com.example.buy_tickets.repositories.UserRepository;
 import com.example.buy_tickets.security.JwtHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,57 +14,35 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtHelper jwtHelper;
 
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.username(),
-                        request.password()
-                )
-        );
+        UserEntity user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
 
-        UserEntity user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
 
-        String accessToken = jwtHelper.generateToken(user);
-        String refreshToken = jwtHelper.generateRefreshToken(user);
-
-        return new AuthResponse(accessToken, refreshToken);
+        String token = jwtHelper.createToken(user.getUsername());
+        return new AuthResponse(token, "13123132");
     }
 
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.existsByUsername(request.username())) {
+        if (userRepository.existsByUsername(request.getUsername())) {
             throw new IllegalArgumentException("Username already taken");
         }
 
-        UserEntity user = UserEntity.builder()
-                .username(request.username())
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
-                .build();
+        UserEntity user = new UserEntity();
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         userRepository.save(user);
 
-        String accessToken = jwtHelper.generateToken(user);
-        String refreshToken = jwtHelper.generateRefreshToken(user);
-
-        return new AuthResponse(accessToken, refreshToken);
-    }
-
-    public AuthResponse refreshToken(String refreshToken) {
-        String username = jwtHelper.extractUsername(refreshToken);
-        UserEntity user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-
-        if (!jwtHelper.isTokenValid(refreshToken, user)) {
-            throw new IllegalArgumentException("Invalid refresh token");
-        }
-
-        String newAccessToken = jwtHelper.generateToken(user);
-        return new AuthResponse(newAccessToken, refreshToken);
+        String token = jwtHelper.createToken(user.getUsername());
+        return new AuthResponse(token, "13123132");
     }
 }
