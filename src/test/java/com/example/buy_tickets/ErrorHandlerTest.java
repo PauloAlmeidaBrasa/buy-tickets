@@ -48,7 +48,7 @@ class ErrorHandlerTest {
         }
 
         @Override
-        public String buy(Long ticketId, Long userId, String userEmail) {
+        public String buy(Long ticketId, Long userId, String userEmail, String userWhatsapp) {
             return "hello world";
         }
         @Override

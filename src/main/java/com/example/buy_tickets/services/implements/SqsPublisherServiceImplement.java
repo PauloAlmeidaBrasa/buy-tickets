@@ -34,7 +34,8 @@ public class SqsPublisherServiceImplement implements SqsPublisherService {
     public void publish(
             Long ticketId,
             Long userId,
-            String userEmail) {
+            String userEmail,
+            String userWhatsapp) {
 
         try {
 
@@ -42,7 +43,8 @@ public class SqsPublisherServiceImplement implements SqsPublisherService {
                     new TicketPurchaseMessage(
                             ticketId,
                             userId,
-                            userEmail);
+                            userEmail,
+                            userWhatsapp);
 
             String body =
                     objectMapper.writeValueAsString(

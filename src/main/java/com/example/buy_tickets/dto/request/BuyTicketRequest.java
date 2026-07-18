@@ -16,6 +16,8 @@ public class BuyTicketRequest {
     @NotNull(message = "User Email is required")
     private String userEmail;
 
+    private String whatsapp;
+
     // getters and setters
     public Long getTicketId() { return ticketId; }
     public void setTicketId(Long ticketId) { this.ticketId = ticketId; }
@@ -25,4 +27,7 @@ public class BuyTicketRequest {
 
     public String getUserEmail() { return userEmail; }
     public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
+
+    public String getWhatsapp() { return whatsapp; }
+    public void setWhatsapp(String whatsapp) { this.whatsapp = whatsapp; }
 }

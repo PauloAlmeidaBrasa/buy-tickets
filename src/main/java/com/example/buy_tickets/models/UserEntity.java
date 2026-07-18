@@ -22,6 +22,9 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = true)
+    private String whatsapp;
+
 
     public Long getId() {
         return id;
@@ -48,5 +51,11 @@ public class UserEntity {
     public void setPassword(String pass) {
         this.password = pass;
             
+    }
+    public String getWhatsapp() {
+        return whatsapp;
+    }
+    public void setWhatsapp(String whatsapp) {
+        this.whatsapp = whatsapp;   
     }
 }

@@ -32,6 +32,11 @@ public class TicketController {
 
     @PostMapping("/buy")
     public String buyTicket(@Valid @RequestBody BuyTicketRequest request) {
-        return ticketService.buy(request.getTicketId(), request.getUserId(),request.getUserEmail());
+        return ticketService.buy(
+            request.getTicketId(), 
+            request.getUserId(),
+            request.getUserEmail(),
+            request.getWhatsapp()
+        );
     }
 }
