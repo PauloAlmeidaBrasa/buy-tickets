@@ -9,6 +9,7 @@ import com.example.buy_tickets.repositories.TicketRepository;
 import com.example.buy_tickets.services.TicketService;
 import java.util.List;
 import com.example.buy_tickets.dto.response.TicketListResponse;
+import java.time.LocalDateTime;
 
 
 @Service
@@ -29,19 +30,36 @@ public class TicketServiceImplement implements TicketService {
         Long userId, 
         String userEmail,
         String userWhatsapp) {
-        TicketEntity reservedTicket = isTicketAvailable(ticketId);
 
-        if (reservedTicket != null) {
-            reservedTicket.setStatus(TicketEntity.TicketStatus.RESERVED);
-            reservedTicket.setReservedUntil(java.time.LocalDateTime.now().plusMinutes(10));
-            ticketRepository.save(reservedTicket);
 
-            String messageBody = String.format("ticketId=%s,userId=%s,userEmail=%s,userWhatsapp=%s", ticketId, userId, userEmail, userWhatsapp);
-            sqsPublisher.publish(ticketId, userId, userEmail, userWhatsapp);
-            return "Ticket reserved successfully";
+        TicketEntity ticket =
+                ticketRepository.findByIdToReserve(ticketId)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Ticket not found"));
+
+        if (ticket.getStatus()
+                != TicketEntity.TicketStatus.AVAILABLE) {
+
+            return "Ticket not available";
         }
 
-        return "Ticket not available";
+        ticket.setStatus(
+                TicketEntity.TicketStatus.RESERVED);
+
+        ticket.setReservedUntil(
+                LocalDateTime.now()
+                        .plusMinutes(10));
+
+        ticketRepository.save(ticket);
+
+        sqsPublisher.publish(
+                ticketId,
+                userId,
+                userEmail,
+                userWhatsapp);
+
+        return "Ticket reserved successfully";
     }
 
     @Override
