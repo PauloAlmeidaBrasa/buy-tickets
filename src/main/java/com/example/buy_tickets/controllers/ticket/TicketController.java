@@ -36,7 +36,7 @@ public class TicketController {
             request.getTicketId(), 
             request.getUserId(),
             request.getUserEmail(),
-            request.getWhatsapp()
+            request.getUserWhatsapp()
         );
     }
 }
