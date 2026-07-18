@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import java.time.LocalDateTime;
+import jakarta.persistence.FetchType;
 
 @Entity
 @Table(name = "tickets")
@@ -16,6 +17,10 @@ public class TicketEntity {
 
     @Id
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = true)
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
@@ -65,5 +70,11 @@ public class TicketEntity {
     }
     public void setReservedUntil(LocalDateTime reservedUntil) {
         this.reservedUntil = reservedUntil;
-    }  
+    }
+    public UserEntity getUser() {
+        return user;
+    }
+    public void setUser(UserEntity user) {
+        this.user = user;  
+    } 
 }
