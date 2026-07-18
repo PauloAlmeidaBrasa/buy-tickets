@@ -1,6 +1,5 @@
 package com.example.buy_tickets.config;
 
-import com.example.buy_tickets.security.JwtHelper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.example.buy_tickets.helpers.JwtHelper;
 
 import java.io.IOException;
 import java.util.Collections;

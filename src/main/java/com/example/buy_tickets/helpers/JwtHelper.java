@@ -1,4 +1,4 @@
-package com.example.buy_tickets.security;
+package com.example.buy_tickets.helpers;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

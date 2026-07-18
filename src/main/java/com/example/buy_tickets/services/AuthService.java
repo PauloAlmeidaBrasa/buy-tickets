@@ -1,11 +1,12 @@
 package com.example.buy_tickets.services;
 
 import com.example.buy_tickets.dto.response.AuthResponse;
+import com.example.buy_tickets.helpers.JwtHelper;
 import com.example.buy_tickets.dto.request.LoginRequest;
 import com.example.buy_tickets.dto.request.RegisterRequest;
 import com.example.buy_tickets.models.UserEntity;
 import com.example.buy_tickets.repositories.UserRepository;
-import com.example.buy_tickets.security.JwtHelper;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
