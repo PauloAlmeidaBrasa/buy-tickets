@@ -1,5 +1,6 @@
-package com.example.buy_tickets.security;
+package com.example.buy_tickets.config;
 
+import com.example.buy_tickets.security.JwtHelper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,7 +1,6 @@
-package com.example.buy_tickets.helpers.impl;
+package com.example.buy_tickets.helpers;
 
 import org.springframework.stereotype.Component;
-import com.example.buy_tickets.helpers.WhatsAppHelper;
 
 @Component
 public class WhatsAppHelperImplement implements WhatsAppHelper {

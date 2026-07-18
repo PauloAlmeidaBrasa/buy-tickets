@@ -1,6 +1,5 @@
 package com.example.buy_tickets.config;
 
-import com.example.buy_tickets.security.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

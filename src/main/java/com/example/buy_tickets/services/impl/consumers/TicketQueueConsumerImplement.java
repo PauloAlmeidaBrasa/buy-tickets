@@ -1,4 +1,4 @@
-package com.example.buy_tickets.services.impl;
+package com.example.buy_tickets.services.impl.consumers;
 
 import java.util.List;
 import java.util.Optional;

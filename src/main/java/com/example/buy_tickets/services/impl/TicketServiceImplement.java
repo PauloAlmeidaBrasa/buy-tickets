@@ -3,7 +3,6 @@ package com.example.buy_tickets.services.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.buy_tickets.services.impl.SqsPublisherServiceImplement;
 import com.example.buy_tickets.models.TicketEntity;
 import com.example.buy_tickets.repositories.TicketRepository;
 import com.example.buy_tickets.services.TicketService;
