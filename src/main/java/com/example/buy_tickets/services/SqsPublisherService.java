@@ -9,6 +9,6 @@ import software.amazon.awssdk.services.sqs.SqsClient;
 @Service
 public interface SqsPublisherService {
 
-    public void publish( Long ticketId, Long userId);
+    public void publish( Long ticketId, Long userId, String userEmail);
 
 }

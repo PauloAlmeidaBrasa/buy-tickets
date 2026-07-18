@@ -28,7 +28,7 @@ class ErrorHandlerTest {
         String requestBody = """
                 {
                   "ticketId": 0,
-                  "userId": 0
+                  "userId": 0,
                 }
                 """;
 
@@ -48,7 +48,7 @@ class ErrorHandlerTest {
         }
 
         @Override
-        public String buy(Long ticketId, Long userId) {
+        public String buy(Long ticketId, Long userId, String userEmail) {
             return "hello world";
         }
         @Override

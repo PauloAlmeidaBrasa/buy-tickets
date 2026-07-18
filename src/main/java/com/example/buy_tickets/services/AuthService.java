@@ -27,7 +27,7 @@ public class AuthService {
         }
 
         String token = jwtHelper.createToken(user.getUsername());
-        return new AuthResponse(token, user.getId(), user.getUsername());
+        return new AuthResponse(token, user.getId(), user.getUsername(), user.getEmail());
     }
 
     public AuthResponse register(RegisterRequest request) {
@@ -43,6 +43,6 @@ public class AuthService {
         userRepository.save(user);
 
         String token = jwtHelper.createToken(user.getUsername());
-        return new AuthResponse(token, user.getId(), user.getUsername());
+        return new AuthResponse(token, user.getId(), user.getUsername(), user.getEmail());
     }
 }

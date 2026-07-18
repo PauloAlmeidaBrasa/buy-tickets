@@ -33,18 +33,25 @@ public class SqsPublisherServiceImplement implements SqsPublisherService {
     @Override
     public void publish(
             Long ticketId,
-            Long userId) {
+            Long userId,
+            String userEmail) {
 
         try {
 
             TicketPurchaseMessage payload =
                     new TicketPurchaseMessage(
                             ticketId,
-                            userId);
+                            userId,
+                            userEmail);
 
             String body =
                     objectMapper.writeValueAsString(
                             payload);
+
+                            
+            System.out.println(
+                    "BODY "
+                    + body);
 
             SendMessageRequest request =
                     SendMessageRequest.builder()

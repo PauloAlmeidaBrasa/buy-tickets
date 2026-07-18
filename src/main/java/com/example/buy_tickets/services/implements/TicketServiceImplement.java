@@ -24,7 +24,7 @@ public class TicketServiceImplement implements TicketService {
 
     @Override
     @Transactional
-    public String buy(Long ticketId, Long userId) {
+    public String buy(Long ticketId, Long userId, String userEmail) {
         TicketEntity reservedTicket = isTicketAvailable(ticketId);
 
         if (reservedTicket != null) {
@@ -32,8 +32,8 @@ public class TicketServiceImplement implements TicketService {
             reservedTicket.setReservedUntil(java.time.LocalDateTime.now().plusMinutes(10));
             ticketRepository.save(reservedTicket);
 
-            String messageBody = String.format("ticketId=%s,userId=%s", ticketId, userId);
-            sqsPublisher.publish(ticketId, userId);
+            String messageBody = String.format("ticketId=%s,userId=%s,userEmail=%s", ticketId, userId, userEmail);
+            sqsPublisher.publish(ticketId, userId, userEmail);
             return "Ticket reserved successfully";
         }
 

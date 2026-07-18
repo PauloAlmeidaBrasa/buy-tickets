@@ -7,6 +7,6 @@ import com.example.buy_tickets.dto.response.TicketListResponse;
 
 public interface TicketService {
     TicketEntity isTicketAvailable(Long ticketId);
-    String buy(Long ticketId, Long userId);
+    String buy(Long ticketId, Long userId, String userEmail);
     List<TicketListResponse> listTickets();
 }

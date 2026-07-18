@@ -48,7 +48,7 @@ class TicketControllerTest {
         }
 
         @Override
-        public String buy(Long ticketId, Long userId) {
+        public String buy(Long ticketId, Long userId, String userEmail) {
             return "hello world";
         }
         @Override
@@ -67,7 +67,7 @@ class TicketControllerTest {
         }
 
         @Override
-        public String buy(Long ticketId, Long userId) {
+        public String buy(Long ticketId, Long userId, String userEmail) {
             this.ticketId = ticketId;
             this.userId = userId;
             return "hello world";
