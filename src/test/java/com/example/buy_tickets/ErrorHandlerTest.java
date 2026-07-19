@@ -52,7 +52,7 @@ class ErrorHandlerTest {
             return "hello world";
         }
         @Override
-        public List<TicketListResponse> listTickets() {
+        public List<TicketListResponse> findAllByStatus(TicketEntity.TicketStatus status) {
             return List.of();
         }
     }

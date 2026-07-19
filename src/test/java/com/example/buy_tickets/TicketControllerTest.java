@@ -52,7 +52,7 @@ class TicketControllerTest {
             return "hello world";
         }
         @Override
-        public List<TicketListResponse> listTickets() {
+        public List<TicketListResponse> findAllByStatus(TicketEntity.TicketStatus status) {
             return List.of();
         }
     }
@@ -73,7 +73,7 @@ class TicketControllerTest {
             return "hello world";
         }
         @Override
-        public List<TicketListResponse> listTickets() {
+        public List<TicketListResponse> findAllByStatus(TicketEntity.TicketStatus status) {
             return List.of();
         }
     }
