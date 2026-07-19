@@ -15,6 +15,7 @@ import com.example.buy_tickets.models.TicketEntity;
 import com.example.buy_tickets.services.TicketService;
 import java.util.List;
 import com.example.buy_tickets.dto.response.TicketListResponse;
+import com.example.buy_tickets.dto.response.UserTicketResponse;
 
 class ErrorHandlerTest {
 
@@ -53,6 +54,11 @@ class ErrorHandlerTest {
         }
         @Override
         public List<TicketListResponse> findAllByStatus(TicketEntity.TicketStatus status) {
+            return List.of();
+        }
+
+        @Override
+        public List<UserTicketResponse> findAllByUserId(Long userId) {
             return List.of();
         }
     }
