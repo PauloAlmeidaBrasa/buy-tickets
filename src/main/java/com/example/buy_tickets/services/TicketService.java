@@ -5,8 +5,9 @@ import java.util.List;
 import com.example.buy_tickets.dto.response.TicketListResponse;
 
 
+
 public interface TicketService {
     TicketEntity isTicketAvailable(Long ticketId);
     String buy(Long ticketId, Long userId, String userEmail, String userWhatsapp);
-    List<TicketListResponse> listTickets();
+    List<TicketListResponse> findAllByStatus(TicketEntity.TicketStatus status);
 }

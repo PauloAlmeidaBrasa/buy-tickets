@@ -66,8 +66,8 @@ public class TicketServiceImplement implements TicketService {
         return ticketRepository.findByIdToReserve(ticketId).orElse(null);
     }
     @Override
-    public List<TicketListResponse> listTickets() {
-        return ticketRepository.findAll().stream()
+    public List<TicketListResponse> findAllByStatus(TicketEntity.TicketStatus status) {
+        return ticketRepository.findAllByStatus(status).stream()
         .map(ticket -> new TicketListResponse(
                 ticket.getId(),
                 ticket.getEvent().getId(),

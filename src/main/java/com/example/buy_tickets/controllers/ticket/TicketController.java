@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import com.example.buy_tickets.dto.response.TicketListResponse;
 import com.example.buy_tickets.error.ErrorHandler;
+import com.example.buy_tickets.models.TicketEntity;
 
 @RestController
 @RequestMapping("/api/${API_VERSION:v1}/ticket")
@@ -46,7 +47,7 @@ public class TicketController {
                     content = @Content(schema = @Schema(implementation = Map.class)))
         })
     public List<TicketListResponse> list() {
-        return ticketService.listTickets();
+        return ticketService.findAllByStatus(TicketEntity.TicketStatus.AVAILABLE);
     }
 
     @PostMapping("/buy")
