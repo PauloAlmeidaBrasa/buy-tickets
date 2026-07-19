@@ -28,7 +28,7 @@ class ErrorHandlerTest {
         String requestBody = """
                 {
                   "ticketId": 0,
-                  "userId": 0,
+                  "userId": 0
                 }
                 """;
 
@@ -38,7 +38,7 @@ class ErrorHandlerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.error").value("Bad Request"))
-                .andExpect(jsonPath("$.errors[*].field", org.hamcrest.Matchers.hasItems("ticketId", "userId")));
+                .andExpect(jsonPath("$.errors[*].field", org.hamcrest.Matchers.hasItems("ticketId", "userId", "userEmail")));
     }
 
     private static class StubTicketService implements TicketService {
