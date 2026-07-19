@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -33,8 +34,34 @@ public class ErrorHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ValidationErrorResponse> handleConstraintViolationException(ConstraintViolationException ex) {
+        List<ValidationErrorResponse.FieldErrorResponse> fieldErrors = ex.getConstraintViolations()
+                .stream()
+                .map(error -> new ValidationErrorResponse.FieldErrorResponse(
+                        error.getPropertyPath().iterator().hasNext()
+                                ? lastPathSegment(error.getPropertyPath().toString())
+                                : "request",
+                        error.getMessage()))
+                .collect(Collectors.toList());
+
+        ValidationErrorResponse response = new ValidationErrorResponse(
+                Instant.now().toString(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                fieldErrors
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
     private ValidationErrorResponse.FieldErrorResponse toFieldErrorResponse(FieldError error) {
         return new ValidationErrorResponse.FieldErrorResponse(error.getField(), error.getDefaultMessage());
+    }
+
+    private String lastPathSegment(String propertyPath) {
+        int separator = propertyPath.lastIndexOf('.');
+        return separator >= 0 ? propertyPath.substring(separator + 1) : propertyPath;
     }
 
     @Schema(description = "Validation error response")

@@ -8,6 +8,7 @@ import com.example.buy_tickets.repositories.TicketRepository;
 import com.example.buy_tickets.services.TicketService;
 import java.util.List;
 import com.example.buy_tickets.dto.response.TicketListResponse;
+import com.example.buy_tickets.dto.response.UserTicketResponse;
 import java.time.LocalDateTime;
 
 
@@ -79,4 +80,15 @@ public class TicketServiceImplement implements TicketService {
         ))
         .collect(java.util.stream.Collectors.toList());
     }
+
+        @Override
+        public List<UserTicketResponse> findAllByUserId(Long userId) {
+                return ticketRepository.findAllByUserId(userId).stream()
+                .map(ticket -> new UserTicketResponse(
+                                ticket.getId(),
+                                ticket.getEvent().getName(),
+                                ticket.getEvent().getEventDate().toString()
+                ))
+                .collect(java.util.stream.Collectors.toList());
+        }
 }

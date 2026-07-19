@@ -17,6 +17,8 @@ public interface TicketRepository extends JpaRepository<TicketEntity, Long> {
     @Query("SELECT t FROM TicketEntity t WHERE t.id = :ticketId")
     Optional<TicketEntity> findByIdToReserve(@Param("ticketId") Long ticketId);
     List<TicketEntity> findAllByStatus(TicketEntity.TicketStatus status);
+    @Query("SELECT t FROM TicketEntity t WHERE t.user.id = :userId")
+    List<TicketEntity> findAllByUserId(@Param("userId") Long userId);
 
 
 

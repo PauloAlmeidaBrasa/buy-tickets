@@ -3,6 +3,7 @@ package com.example.buy_tickets.services;
 import com.example.buy_tickets.models.TicketEntity;
 import java.util.List;
 import com.example.buy_tickets.dto.response.TicketListResponse;
+import com.example.buy_tickets.dto.response.UserTicketResponse;
 
 
 
@@ -10,4 +11,5 @@ public interface TicketService {
     TicketEntity isTicketAvailable(Long ticketId);
     String buy(Long ticketId, Long userId, String userEmail, String userWhatsapp);
     List<TicketListResponse> findAllByStatus(TicketEntity.TicketStatus status);
+    List<UserTicketResponse> findAllByUserId(Long userId);
 }
