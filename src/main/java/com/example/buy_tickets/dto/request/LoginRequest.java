@@ -1,4 +1,5 @@
 package com.example.buy_tickets.dto.request;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -10,11 +11,14 @@ import jakarta.validation.constraints.NotNull;
 public class LoginRequest {
 
     @Email(message = "email must be a valid email address")
+    @Schema(description = "User e-mail", example = "john.doe@example.com")
     private String email;
 
     @NotNull(message = "Password is required")
+    @Schema(description = "User password", example = "StrongPassword123")
     private String password ;
 
+    @Schema(description = "User display name", example = "johndoe")
     private String username ;
 
     // getters and setters

@@ -1,5 +1,6 @@
 package com.example.buy_tickets.error;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,10 +37,15 @@ public class ErrorHandler {
         return new ValidationErrorResponse.FieldErrorResponse(error.getField(), error.getDefaultMessage());
     }
 
+    @Schema(description = "Validation error response")
     public static class ValidationErrorResponse {
+        @Schema(description = "Error timestamp", example = "2026-07-18T14:30:45.185Z")
         private final String timestamp;
+        @Schema(description = "HTTP status code", example = "400")
         private final int status;
+        @Schema(description = "HTTP status reason", example = "Bad Request")
         private final String error;
+        @Schema(description = "Field validation errors")
         private final List<FieldErrorResponse> errors;
 
         public ValidationErrorResponse(String timestamp, int status, String error, List<FieldErrorResponse> errors) {
@@ -68,8 +74,11 @@ public class ErrorHandler {
             return errors;
         }
 
+        @Schema(description = "Field-level validation detail")
         public static class FieldErrorResponse {
+            @Schema(description = "Invalid field name", example = "userEmail")
             private final String field;
+            @Schema(description = "Validation message", example = "must not be null")
             private final String message;
 
             public FieldErrorResponse(String field, String message) {
