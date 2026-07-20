@@ -1,6 +1,6 @@
 # Buy Tickets API
 
-API REST para compra e reserva de ingressos com autenticacao via JWT.
+API REST para compra  de ingressos com autenticacao via JWT.
 
 ## Tecnologias Utilizadas
 
